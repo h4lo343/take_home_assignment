@@ -15,7 +15,7 @@
       <span class="tabList__tab">(3) Fruits</span>
     </div>
     <div class="list">
-      <span>List(8)</span>
+      <span class="list__header"></span>
       <ul class="list__items">
       </ul>
     </div>
@@ -66,6 +66,11 @@
   .list {
     background-color: white;
     padding: 2.3rem;
+  }
+
+  .list__header {
+    margin-bottom: 1rem;
+    display: block;
   }
 
   .list__items {
@@ -122,6 +127,7 @@
             toggle(document.getElementsByClassName('list__item'), index)
           })
           ui.appendChild(li);
+          renderListHeader();
         })
       }
   
@@ -135,9 +141,18 @@
         }
         chosenElement.classList.add('chosen')
         chosenIndex = chosenElement.getAttribute('data-index') || chosenIndex;
+        renderListHeader();
+    }
+
+    const renderListHeader = () => {
+      const number = document.getElementsByClassName('list__item').length
+      const header = document.getElementsByClassName('list__header')[0];
+
+      header.textContent = `list (${number})`
     }
 
     renderList();
+    renderListHeader();
 
 </script>
 </html>
