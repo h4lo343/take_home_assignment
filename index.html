@@ -10,7 +10,7 @@
   <div class="container">
     <div class="header">Inventory</div>
     <div class="tabList">
-      <span class="tabList__tab">(1) Vegetables</span>
+      <span class="tabList__tab chosen">(1) Vegetables</span>
       <span class="tabList__tab">(2) Species</span>
       <span class="tabList__tab">(3) Fruits</span>
     </div>
@@ -146,7 +146,6 @@
     const renderListHeader = () => {
       const number = document.getElementsByClassName('list__item').length
       const header = document.getElementsByClassName('list__header')[0];
-
       header.textContent = `list (${number})`
     }
 
