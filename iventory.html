@@ -10,19 +10,29 @@
   <div class="container">
     <div class="header">Inventory</div>
     <div class="tabList">
-      <span class="tabList__tab">(1) Vegeatables</span>
+      <span class="tabList__tab">(1) Vegetables</span>
       <span class="tabList__tab">(2) Species</span>
       <span class="tabList__tab">(3) Fruits</span>
+    </div>
+    <div class="list">
+      <span>List(8)</span>
+      <ul class="list__items">
+      </ul>
     </div>
   </div>
 </body>
 <style>
+  li, ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
   body {
     font-family: "Arial"
 }
   .container {
     width: 25rem;
-    height:30rem;
+    height:34rem;
     margin: 0 auto;
     background-color: pink;
     border-radius: 5px;
@@ -51,28 +61,79 @@
     flex:1;
     padding: .2rem;
     background-color: rgb(195,195,195);
+    cursor: pointer;
   }
 
   .tabList__tab--chosen {
     background-color: green;
   }
+
+  .list {
+    background-color: white;
+    padding: 2.3rem;
+  }
+
+  .list__items {
+    border: 2px solid black;
+  }
+
+  .list__item {
+    background-color: rgb(164,164,164);
+    cursor: pointer;
+    border-bottom: 2px solid black;
+    padding: .3rem;
+  
+  }
+
+  .list__items .list__item:last-child {
+    border-bottom: none;
+  }
+
 </style>
 <script>
-    
-    var tabList = document.getElementsByClassName('tabList__tab');
+    var chosenIndex = 0;
+    var tabList = document.getElementsByClassName('tabList__tab')
+    var ui = document.getElementsByClassName('list__items')[0];
+   
+    const data = [
+      ['Apple', 'Banana', 'Pear', 'Watermelon', 'Grape', 'Strawberry', 'Mango', 'Blackberry'],
+      ['Salt', 'Pepper', 'Chilli', 'Herbs', 'Curry'],
+      ['Carrot', 'Cucumber']
+    ]
+
+    const renderList = () => {
+        const dataSource = data[chosenIndex];
+        ui.innerHTML = null;
+        dataSource.forEach((item) => {
+          var li = document.createElement('li');
+          li.className = 'list__item'
+          li.textContent = item;
+          ui.appendChild(li);
+        })
+      }
+  
+    const changeTab = (tab) => {
+      for (var i = 0; i < tabList.length; i ++) 
+        {
+          tabList[i].classList.remove('tabList__tab--chosen')
+        }
+        tab.classList.add('tabList__tab--chosen')
+        chosenIndex = tab.getAttribute('data-index');
+    }
+
+    renderList();
  
     for(var i = 0; i < tabList.length; i ++)
     {    
       const tab = tabList[i];
       tab.setAttribute('data-index', i);
       tab.addEventListener('click', () => {
-        for (var j = 0; j < tabList.length; j ++) 
-        {
-          tabList[j].classList.remove('tabList__tab--chosen')
-        }
-        tab.classList.add('tabList__tab--chosen')
-
+       changeTab(tab)
+       renderList();
       })
     }
+
+  
+
 </script>
 </html>
