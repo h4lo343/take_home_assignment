@@ -34,7 +34,6 @@
     width: 25rem;
     height:34rem;
     margin: 0 auto;
-    background-color: pink;
     border-radius: 5px;
     overflow: hidden;
   }
@@ -64,10 +63,6 @@
     cursor: pointer;
   }
 
-  .tabList__tab--chosen {
-    background-color: green;
-  }
-
   .list {
     background-color: white;
     padding: 2.3rem;
@@ -89,6 +84,11 @@
     border-bottom: none;
   }
 
+  .chosen {
+    background-color: rgb(89, 224, 58);
+  }
+
+
 </style>
 <script>
     var chosenIndex = 0;
@@ -101,39 +101,43 @@
       ['Carrot', 'Cucumber']
     ]
 
-    const renderList = () => {
-        const dataSource = data[chosenIndex];
-        ui.innerHTML = null;
-        dataSource.forEach((item) => {
-          var li = document.createElement('li');
-          li.className = 'list__item'
-          li.textContent = item;
-          ui.appendChild(li);
-        })
-      }
-  
-    const changeTab = (tab) => {
-      for (var i = 0; i < tabList.length; i ++) 
-        {
-          tabList[i].classList.remove('tabList__tab--chosen')
-        }
-        tab.classList.add('tabList__tab--chosen')
-        chosenIndex = tab.getAttribute('data-index');
-    }
-
-    renderList();
- 
     for(var i = 0; i < tabList.length; i ++)
     {    
       const tab = tabList[i];
       tab.setAttribute('data-index', i);
       tab.addEventListener('click', () => {
-       changeTab(tab)
+       toggle(tabList, tab.getAttribute('data-index'))
        renderList();
       })
     }
 
+    const renderList = () => {
+        const dataSource = data[chosenIndex];
+        ui.innerHTML = null;
+        dataSource.forEach((item, index) => {
+          var li = document.createElement('li');
+          li.className = 'list__item'
+          li.textContent = item;
+          li.addEventListener('click', () => {
+            toggle(document.getElementsByClassName('list__item'), index)
+          })
+          ui.appendChild(li);
+        })
+      }
   
+
+    const toggle = (collection, index) => {
+      
+      const chosenElement = collection[index];
+      for (var i = 0; i < collection.length; i ++) 
+        {
+          collection[i].classList.remove('chosen')
+        }
+        chosenElement.classList.add('chosen')
+        chosenIndex = chosenElement.getAttribute('data-index') || chosenIndex;
+    }
+
+    renderList();
 
 </script>
 </html>
